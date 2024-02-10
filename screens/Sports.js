@@ -5,6 +5,7 @@ import {
   FlatList,
   Image,
   ScrollView,
+  Spinner,
 } from 'native-base';
 import { useEffect, useState } from 'react';
 import { services } from '../services/services';
@@ -48,6 +49,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 10,
   },
+  spinner: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 600,
+  },
 });
 const SportsScreen = () => {
   const [newsData, setNewsData] = useState([]);
@@ -64,33 +71,41 @@ const SportsScreen = () => {
           <Text style={styles.text}>Sports - Top Headlines</Text>
         </View>
         <ScrollView height={850}>
-          <FlatList
-            data={newsData}
-            renderItem={({ item }) => (
-              <View>
-                <View style={styles.newsContainer}>
-                  <Image
-                    source={{
-                      uri:
-                        item.urlToImage ||
-                        'https://wallpaperaccess.com/full/317501.jpg',
-                    }}
-                    alt="Alternate Text"
-                    width={550}
-                    height={250}
-                    resizeMode="cover"
-                  />
-                  <Text style={styles.title}>{item.title}</Text>
-                  <Text style={styles.date}>
-                    {moment(item.publishedAt).format('LLL')}
-                  </Text>
-                  <Text style={styles.newsDescription}>{item.description}</Text>
+          {newsData.length > 0 ? (
+            <FlatList
+              data={newsData}
+              renderItem={({ item }) => (
+                <View>
+                  <View style={styles.newsContainer}>
+                    <Image
+                      source={{
+                        uri:
+                          item.urlToImage ||
+                          'https://wallpaperaccess.com/full/317501.jpg',
+                      }}
+                      alt="Alternate Text"
+                      width={550}
+                      height={250}
+                      resizeMode="cover"
+                    />
+                    <Text style={styles.title}>{item.title}</Text>
+                    <Text style={styles.date}>
+                      {moment(item.publishedAt).format('LLL')}
+                    </Text>
+                    <Text style={styles.newsDescription}>
+                      {item.description}
+                    </Text>
+                  </View>
+                  <Divider bg="#e0e0e0" />
                 </View>
-                <Divider bg="#e0e0e0" />
-              </View>
-            )}
-            keyExtractor={(item) => item.id}
-          />
+              )}
+              keyExtractor={(item) => item.id}
+            />
+          ) : (
+            <View style={styles.spinner}>
+              <Spinner color="amber.500" size="lg" />
+            </View>
+          )}
         </ScrollView>
       </View>
     </NativeBaseProvider>

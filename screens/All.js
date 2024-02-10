@@ -59,13 +59,11 @@ const All = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  console.log(newsData);
-
   return (
     <NativeBaseProvider>
       <View>
         <View style={styles.container}>
-          <Text style={styles.text}>All News</Text>
+          <Text style={styles.text}>All - Top Headlines</Text>
         </View>
         <ScrollView height={850}>
           <FlatList
